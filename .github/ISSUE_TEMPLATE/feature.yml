@@ -1,0 +1,28 @@
+name: Feature
+description: A new capability, as a small spec
+labels: [enhancement]
+body:
+  - type: textarea
+    id: story
+    attributes:
+      label: Story
+      placeholder: As a <who>, I want <what>, so that <why>.
+    validations:
+      required: true
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: Checkboxes a reviewer can tick.
+      value: |
+        - [ ] 
+    validations:
+      required: true
+  - type: textarea
+    id: decide
+    attributes:
+      label: Decide before coding
+  - type: textarea
+    id: oos
+    attributes:
+      label: Out of scope

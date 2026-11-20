@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.egg-info/
+
+# Virtual environment (uv)
+.venv/
+
+# Tool caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets: only .env.example is committed
+.env
+.env.*
+!.env.example
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Editors and OS
+.vscode/*
+!.vscode/settings.json
+.idea/
+.DS_Store

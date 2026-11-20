@@ -1,0 +1,98 @@
+[project]
+name = "chess-coach"
+version = "0.1.0"
+description = "A chess coach that explains the mistakes in your Chess.com games from engine-checked facts."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Matthew Hurley", email = "matthew.hurley953@gmail.com" }
+]
+keywords = ["chess", "llm", "claude-api", "stockfish"]
+requires-python = ">=3.14"
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/Murfew/chess-coach"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pre-commit>=4.0.0",
+    "pytest>=9.2.0",
+    "ruff>=0.17.6",
+]
+
+[tool.ruff]
+line-length = 88
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "RET", "PIE", "PTH",
+    "PERF", "FURB", "ARG", "LOG", "G", "PT", "RUF", "D", "DOC",
+    "DTZ",   # naive datetimes compare wrongly across time zones
+    "S",     # security: SQL built with f-strings, HTTP calls without a timeout
+    "BLE",   # no `except Exception` swallowing errors
+    "T20",   # no print: output goes through Typer, debugging through logging
+    "ERA",   # no commented-out code: Git keeps history
+    "PGH",   # no blanket `# type: ignore` or `# noqa`
+    "TRY",   # narrow try blocks and proper raising
+    "ASYNC", # blocking calls in async code, for the API
+    "FAST",  # FastAPI rules, for the API
+    "PL",    # pylint smells: magic numbers, too many branches
+]
+ignore = [
+    "undocumented-public-module",                # D100: an app, not a library
+    "undocumented-public-package",               # D104: same for __init__.py
+    "undocumented-public-init",                  # D107: args go in the class docstring
+    "line-too-long",                             # ruff format wraps code; W505 checks docs
+    "raise-vanilla-args",                        # a class per message is overkill
+    "too-many-arguments",                        # noisy with Typer options
+    "missing-trailing-comma",                    # conflicts with ruff format
+    "single-line-implicit-string-concatenation", # conflicts with ruff format
+]
+preview = true # enables newer rules such as DOC
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "assert",                 # pytest is built on assert
+    "magic-value-comparison", # expected values are literals
+    "ARG",                    # fixtures look like unused arguments
+    "D",
+    "no-self-use",
+    "import-private-name",    # tests may call private helpers
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pydoclint]
+ignore-one-line-docstrings = true
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 88
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.mypy]
+strict = true
+warn_unreachable = true
+enable_error_code = [
+    "ignore-without-code",
+    "redundant-expr",
+    "truthy-bool",
+    "possibly-undefined",
+    "explicit-override",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config", "--import-mode=importlib"]
+xfail_strict = true
+filterwarnings = ["error"]
