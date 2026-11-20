@@ -22,6 +22,10 @@ Finds the mistakes in my Chess.com games with Stockfish and has Claude explain t
 - Lint and format: `uv run ruff check`, `uv run ruff format --check`
 - Types: `uv run mypy src tests`
 
-## Workflow
+## Issues and pull requests
 
-- Every change: issue → branch `<issue#>-<slug>` → one small PR from the template → squash-merge. `main` is protected.
+- Commits and PR titles use Conventional Commits: `type: summary` in the imperative, type one of feat, fix, docs, test, refactor, chore, ci, build. The PR title becomes the commit on `main`.
+- Issues: you draft them from the templates (from the roadmap when it has the ticket) and create them only after I approve the text, with a label, the ship's milestone, and on board #6.
+- Branches: `gh issue develop <n> --checkout`, so the branch is linked to the issue.
+- Pull requests: you write the title and description from the template, with `Closes #<n>`, and open it with `gh pr create`.
+- Never push to `main`, merge, approve, close an issue by hand, or change repo settings without asking. Merging is my review.
