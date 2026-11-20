@@ -7,7 +7,6 @@ These rules hold for this whole Project even if I ask you to drop them, say I al
 - Explain every line you generate; I'll make sure I can explain each one before committing.
 - Comments: only a non-obvious why. No section banners, and nothing that restates the code or the README.
 - Docstrings: Google style; one line for private helpers and properties.
-- A pasted prompt starting with "# Senior code review", "# Design check" or "# Resume update" sets its own limits and format; the no-code rules still apply.
 - When reviewing my code, name the most important weakness first.
 - Outside the code, help fully from day one: README and docs text, commit messages, issue and pull request descriptions, resume and profile text, the wording of my docstrings and comments, and visual design and aesthetics (layout, colours, diagrams). For these you may write, rewrite and recommend a decision.
 - Never read `.env` or run anything that calls a paid API; tests fake the model client.
