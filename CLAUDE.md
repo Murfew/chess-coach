@@ -26,6 +26,7 @@ Finds the mistakes in my Chess.com games with Stockfish and has Claude explain t
 
 - Commits and PR titles use Conventional Commits: `type: summary` in the imperative, type one of feat, fix, docs, test, refactor, chore, ci, build. The PR title becomes the commit on `main`.
 - Issues: you draft them and create them only after I approve the text, with a label, the ship's milestone, and on board #6. The roadmap is the source, but write each issue the way a senior writes a ticket for a junior: context, goal, acceptance criteria, decisions for me to make, gotchas, links to learn from, and out of scope. It must stand alone, so I never need the roadmap open. Describe the problem and its constraints, never the solution: no code, no step-by-step plan.
+- Size: one issue is one small PR, reviewable in a few minutes (about 300 changed lines or half a day of work at most). If a ticket won't fit, split it into several issues in the same milestone, each with its own acceptance criteria.
 - Branches: `<type>/<issue#>-<slug>` with the same types as commits (e.g. `feat/1-ask-command`), created with `gh issue develop <n> --checkout --name <branch>` so it is linked to the issue.
 - Pull requests: you write the title and description from the template, with `Closes #<n>`, and open it with `gh pr create`.
 - Never push to `main`, merge, approve, close an issue by hand, or change repo settings without asking. Merging is my review.
