@@ -101,6 +101,7 @@ max-doc-length = 88
 docstring-code-format = true
 
 [tool.mypy]
+plugins = ["pydantic.mypy"]
 strict = true
 warn_unreachable = true
 enable_error_code = [
@@ -113,6 +114,7 @@ enable_error_code = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["tests"] # lets tests import fakes.py under importlib mode
 addopts = [
     "-ra",
     "--strict-markers",
