@@ -1,9 +1,32 @@
+from collections.abc import Callable
+
 from anthropic import APIStatusError
-from anthropic.types import ContentBlock, Message, StopReason, Usage
+from anthropic.types import (
+    ContentBlock,
+    Message,
+    StopReason,
+    TextBlock,
+    ThinkingBlock,
+    Usage,
+)
 from httpx2 import Request, Response
 
 FAKE_REQUEST = Request("POST", "https://api.anthropic.com/v1/messages")
-"""The request SDK errors refer to; it is never sent."""
+MODEL = "test-model"
+FAKE_API_KEY = "fake-api-key"
+
+type ReplyWith = Callable[[Message | Exception], None]
+"""The `reply_with` fixture: sets what `client.messages.create` returns or raises."""
+
+
+def thinking_block() -> ThinkingBlock:
+    """Build a thinking block; its content never matters to the app."""
+    return ThinkingBlock(type="thinking", thinking="", signature="fake-signature")
+
+
+def text_block(text: str) -> TextBlock:
+    """Build a text block holding the given text."""
+    return TextBlock(type="text", text=text)
 
 
 def make_message(
@@ -14,7 +37,7 @@ def make_message(
         id="msg_test",
         type="message",
         role="assistant",
-        model="claude-haiku-5-5",
+        model=MODEL,
         content=content,
         stop_reason=stop_reason,
         usage=Usage(input_tokens=1, output_tokens=1),

@@ -114,7 +114,7 @@ enable_error_code = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["tests"] # lets tests import fakes.py under importlib mode
+pythonpath = ["tests"] # lets tests import fake_claude.py under importlib mode
 addopts = [
     "-ra",
     "--strict-markers",

@@ -1,11 +1,10 @@
 from pathlib import Path
 
 import pytest
+from fake_claude import FAKE_API_KEY
 from pydantic import ValidationError
 
 from chess_coach.settings import Settings
-
-FAKE_API_KEY = "fake-api-key"
 
 
 def test_missing_api_key_raises() -> None:
