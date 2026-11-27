@@ -9,9 +9,9 @@ agent: reviewer
 
 Review this branch as a senior engineer would before approving it. Extra focus from the author, if any: $ARGUMENTS
 
-## Linked issue
+!`git fetch --quiet origin main || echo "Fetch failed; origin/main may be stale."`
 
-!`git fetch --quiet origin main`
+## Linked issue
 
 Branch: !`git branch --show-current`
 
