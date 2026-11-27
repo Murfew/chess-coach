@@ -2,7 +2,7 @@
 description: Review the current branch against main as a senior engineer, most important weakness first.
 argument-hint: "[focus]"
 disable-model-invocation: true
-allowed-tools: Bash(git fetch *) Bash(gh issue view *) Bash(uv run pytest *) Bash(uv run ruff *) Bash(uv run mypy *)
+allowed-tools: Bash(git fetch *) Bash(git diff *) Bash(git log *) Bash(git status *) Bash(git branch *) Bash(gh issue view *) Bash(uv run pytest *) Bash(uv run ruff *) Bash(uv run mypy *)
 context: fork
 agent: reviewer
 ---
