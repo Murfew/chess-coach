@@ -136,6 +136,7 @@ source = { editable = "." }
 dependencies = [
     { name = "anthropic" },
     { name = "pydantic-settings" },
+    { name = "rich" },
     { name = "typer" },
 ]
 
@@ -151,6 +152,7 @@ dev = [
 requires-dist = [
     { name = "anthropic", specifier = ">=2.14.0" },
     { name = "pydantic-settings", specifier = ">=2.16.3" },
+    { name = "rich", specifier = ">=15.0.0" },
     { name = "typer", specifier = ">=0.29.2" },
 ]
 
