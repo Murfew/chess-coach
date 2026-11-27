@@ -2,7 +2,7 @@
 description: Review the current branch against main as a senior engineer, most important weakness first.
 argument-hint: "[focus]"
 disable-model-invocation: true
-allowed-tools: Bash(gh issue view *) Bash(uv run pytest *) Bash(uv run ruff *) Bash(uv run mypy *)
+allowed-tools: Bash(git fetch *) Bash(gh issue view *) Bash(uv run pytest *) Bash(uv run ruff *) Bash(uv run mypy *)
 context: fork
 agent: reviewer
 ---
@@ -11,11 +11,13 @@ Review this branch as a senior engineer would before approving it. Extra focus f
 
 ## Linked issue
 
+!`git fetch --quiet origin main`
+
 Branch: !`git branch --show-current`
 
 The issue number is the digits after the type, as in `feat/1-ask-command` for issue 1. Read it with `gh issue view <n>` before reviewing; if the branch has no number, review without an issue.
 
-## Uncommitted changes (not in the diff below)
+## Working tree (untracked files are not in the diff below)
 
 !`git status --short`
 
@@ -25,9 +27,9 @@ The issue number is the digits after the type, as in `feat/1-ask-command` for is
 
 ## Diff
 
-!`git diff origin/main...HEAD --stat`
+!`git diff --merge-base origin/main --stat`
 
-!`git diff origin/main...HEAD`
+!`git diff --merge-base origin/main`
 
 ## What to check, in priority order
 
