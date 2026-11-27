@@ -11,7 +11,9 @@ Review this branch as a senior engineer would before approving it. Extra focus f
 
 ## Linked issue
 
-!`gh issue view "$(git branch --show-current | cut -d/ -f2 | cut -d- -f1)" || echo "No linked issue found."`
+Branch: !`git branch --show-current`
+
+The issue number is the digits after the type, as in `feat/1-ask-command` for issue 1. Read it with `gh issue view <n>` before reviewing; if the branch has no number, review without an issue.
 
 ## Uncommitted changes (not in the diff below)
 
