@@ -2,7 +2,7 @@
 description: Review the current branch against main as a senior engineer, most important weakness first.
 argument-hint: "[focus]"
 disable-model-invocation: true
-allowed-tools: Bash(gh issue view *) Bash(uv run *)
+allowed-tools: Bash(gh issue view *) Bash(uv run pytest *) Bash(uv run ruff *) Bash(uv run mypy *)
 context: fork
 agent: reviewer
 ---
@@ -21,13 +21,13 @@ The issue number is the digits after the type, as in `feat/1-ask-command` for is
 
 ## Commits
 
-!`git log main..HEAD --oneline`
+!`git log origin/main..HEAD --oneline`
 
 ## Diff
 
-!`git diff main...HEAD --stat`
+!`git diff origin/main...HEAD --stat`
 
-!`git diff main...HEAD`
+!`git diff origin/main...HEAD`
 
 ## What to check, in priority order
 
