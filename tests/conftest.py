@@ -4,6 +4,9 @@ import pytest
 from anthropic import Anthropic
 from anthropic.types import Message
 from fake_claude import FAKE_API_KEY, ReplyWith
+from typer.testing import CliRunner
+
+from chess_coach import cli
 
 
 @pytest.fixture(autouse=True)
@@ -34,3 +37,23 @@ def reply_with(client: Anthropic, monkeypatch: pytest.MonkeyPatch) -> ReplyWith:
         monkeypatch.setattr(client.messages, "create", fake_create)
 
     return set_reply
+
+
+@pytest.fixture
+def runner() -> CliRunner:
+    """A runner that keeps `result.stdout` and `result.stderr` separate."""
+    return CliRunner()
+
+
+@pytest.fixture
+def api_key(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Set a dummy `ANTHROPIC_API_KEY` so settings load."""
+    monkeypatch.setenv("ANTHROPIC_API_KEY", FAKE_API_KEY)
+
+
+@pytest.fixture
+def cli_client(client: Anthropic, monkeypatch: pytest.MonkeyPatch) -> Anthropic:
+    """Make the CLI use the `client` fixture, so `reply_with` sets its reply."""
+    # cli imported build_client by name, so the patch must target cli's copy.
+    monkeypatch.setattr(cli, "build_client", lambda api_key: client)
+    return client

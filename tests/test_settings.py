@@ -12,18 +12,16 @@ def test_missing_api_key_raises() -> None:
         Settings()
 
 
-def test_api_key_hidden_in_repr_and_str(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("ANTHROPIC_API_KEY", FAKE_API_KEY)
-
+@pytest.mark.usefixtures("api_key")
+def test_api_key_hidden_in_repr_and_str() -> None:
     settings = Settings()
 
     assert FAKE_API_KEY not in repr(settings)
     assert FAKE_API_KEY not in str(settings)
 
 
-def test_model_defaults_to_haiku(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.setenv("ANTHROPIC_API_KEY", FAKE_API_KEY)
-
+@pytest.mark.usefixtures("api_key")
+def test_model_defaults_to_haiku() -> None:
     settings = Settings()
 
     assert settings.claude_model == "claude-haiku-5-5"
