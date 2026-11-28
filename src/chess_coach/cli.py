@@ -26,7 +26,9 @@ def _load_settings() -> Settings:
         for problem in err.errors():
             env_var = str(problem["loc"][0]).upper()
 
-            if problem["type"] == "missing":
+            if problem["type"] == "missing" or (
+                env_var == "ANTHROPIC_API_KEY" and problem["type"] == "too_short"
+            ):
                 _print_error(
                     f"{env_var} is not set; add it to your environment or .env."
                 )
