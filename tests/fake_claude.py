@@ -45,8 +45,8 @@ def make_message(
 
 
 def make_status_error(
-    error_class: type[APIStatusError], status_code: int
+    error_class: type[APIStatusError], status_code: int, body: object | None = None
 ) -> APIStatusError:
-    """Build an SDK status error of the given class and HTTP status."""
+    """Build an SDK status error with the given class, status and body."""
     response = Response(status_code, request=FAKE_REQUEST)
-    return error_class("test error", response=response, body=None)
+    return error_class("test error", response=response, body=body)

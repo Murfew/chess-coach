@@ -116,7 +116,13 @@ def get_answer(client: Anthropic, model: str, question: str) -> Result:
             f"the Claude API is having problems (status {err.status_code}); try again later"
         ) from err
     except BadRequestError as err:
-        raise ClaudeError("the Claude API rejected the request (status 400)") from err
+        reason = err.api_message
+        if reason:
+            raise ClaudeError(f"the Claude API rejected the request: {reason}") from err
+
+        raise ClaudeError(
+            "the Claude API rejected the request (status 400); this is likely a bug in chess-coach"
+        ) from err
     except APIStatusError as err:
         raise ClaudeError(
             f"the Claude API request failed (status {err.status_code})"

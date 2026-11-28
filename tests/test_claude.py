@@ -153,7 +153,7 @@ def test_sends_model_question_and_max_tokens(
         pytest.param(
             BadRequestError,
             codes.BAD_REQUEST,
-            "rejected the request",
+            "likely a bug in chess-coach",
             id="400-bad-request",
         ),
         pytest.param(
@@ -236,6 +236,29 @@ def test_network_errors_become_claude_error(
         get_answer(client, MODEL, QUESTION)
 
     assert excinfo.value.__cause__ is connection_error
+
+
+def test_bad_request_error_includes_api_reason(
+    reply_with: ReplyWith, client: Anthropic
+) -> None:
+    api_reason = "temperature is not supported for this model"
+    error_body = {
+        "type": "error",
+        "error": {
+            "type": "invalid_request_error",
+            "message": api_reason,
+        },
+    }
+    bad_request_error = make_status_error(
+        BadRequestError, codes.BAD_REQUEST, error_body
+    )
+
+    reply_with(bad_request_error)
+
+    with pytest.raises(ClaudeError, match=re.escape(api_reason)) as excinfo:
+        get_answer(client, MODEL, QUESTION)
+
+    assert excinfo.value.__cause__ is bad_request_error
 
 
 def test_build_client_sets_timeouts() -> None:
