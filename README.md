@@ -23,7 +23,20 @@ cp .env.example .env   # then add your ANTHROPIC_API_KEY
 
 ## Usage
 
-Coming with v1.
+Set `ANTHROPIC_API_KEY` in `.env` or your environment. To use another model,
+set `CLAUDE_MODEL` (default: `claude-haiku-5-5`).
+
+Ask Claude a question:
+
+```bash
+uv run chess-coach ask "Why is the Italian Game considered solid for beginners?"
+```
+
+The answer goes to stdout exactly as Claude wrote it, so `> answer.md` saves it.
+If the answer is cut off, Claude declines, or the call fails, `chess-coach`
+prints one line to stderr and exits with status 1.
+
+Run `uv run chess-coach --help` to list commands.
 
 ## Development
 

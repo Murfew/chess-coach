@@ -6,14 +6,22 @@ readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
-    { name = "Matthew Hurley", email = "matthew.hurley953@gmail.com" }
+    { name = "Matthew Hurley", email = "matthew.hurley953@gmail.com" },
 ]
 keywords = ["chess", "llm", "claude-api", "stockfish"]
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "anthropic>=2.14.0",
+    "pydantic-settings>=2.16.3",
+    "rich>=15.0.0",
+    "typer>=0.29.2",
+]
 
 [project.urls]
 Repository = "https://github.com/Murfew/chess-coach"
+
+[project.scripts]
+chess-coach = "chess_coach.cli:app"
 
 [build-system]
 requires = ["uv_build>=0.13.7,<0.14.0"]
@@ -21,6 +29,7 @@ build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
+    "httpx2>=2.16.2",
     "mypy>=2.4.1",
     "pre-commit>=4.0.0",
     "pytest>=9.2.0",
@@ -33,8 +42,28 @@ src = ["src"]
 
 [tool.ruff.lint]
 select = [
-    "E", "W", "F", "I", "N", "UP", "B", "A", "C4", "SIM", "RET", "PIE", "PTH",
-    "PERF", "FURB", "ARG", "LOG", "G", "PT", "RUF", "D", "DOC",
+    "E",
+    "W",
+    "F",
+    "I",
+    "N",
+    "UP",
+    "B",
+    "A",
+    "C4",
+    "SIM",
+    "RET",
+    "PIE",
+    "PTH",
+    "PERF",
+    "FURB",
+    "ARG",
+    "LOG",
+    "G",
+    "PT",
+    "RUF",
+    "D",
+    "DOC",
     "DTZ",   # naive datetimes compare wrongly across time zones
     "S",     # security: SQL built with f-strings, HTTP calls without a timeout
     "BLE",   # no `except Exception` swallowing errors
@@ -81,6 +110,7 @@ max-doc-length = 88
 docstring-code-format = true
 
 [tool.mypy]
+plugins = ["pydantic.mypy"]
 strict = true
 warn_unreachable = true
 enable_error_code = [
@@ -93,6 +123,8 @@ enable_error_code = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# lets tests import fake_claude.py under importlib mode
+pythonpath = ["tests"]
 addopts = ["-ra", "--strict-markers", "--strict-config", "--import-mode=importlib"]
 xfail_strict = true
 filterwarnings = ["error"]
