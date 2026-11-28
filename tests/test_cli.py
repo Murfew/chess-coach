@@ -51,9 +51,34 @@ def test_ask_rejects_blank_question(
     assert "question is empty" in result.stderr
 
 
-def test_ask_without_api_key_names_it(runner: CliRunner) -> None:
+@pytest.mark.usefixtures("cli_client")
+def test_ask_without_api_key_names_it(runner: CliRunner, reply_with: ReplyWith) -> None:
+    reply_with(AssertionError("API should not be called"))
+
     result = runner.invoke(app, ["ask", "why?"])
 
+    assert isinstance(result.exception, SystemExit)
+    assert result.exit_code == 1
+    assert "ANTHROPIC_API_KEY is not set" in result.stderr
+    assert len(result.stderr.splitlines()) == 1
+
+
+@pytest.mark.parametrize(
+    "api_key_value", [pytest.param("", id="empty"), pytest.param("  ", id="whitespace")]
+)
+@pytest.mark.usefixtures("cli_client")
+def test_ask_with_empty_api_key_names_it(
+    runner: CliRunner,
+    monkeypatch: pytest.MonkeyPatch,
+    api_key_value: str,
+    reply_with: ReplyWith,
+) -> None:
+    reply_with(AssertionError("API should not be called"))
+    monkeypatch.setenv("ANTHROPIC_API_KEY", api_key_value)
+
+    result = runner.invoke(app, ["ask", "why?"])
+
+    assert isinstance(result.exception, SystemExit)
     assert result.exit_code == 1
     assert "ANTHROPIC_API_KEY is not set" in result.stderr
     assert len(result.stderr.splitlines()) == 1
@@ -119,6 +144,27 @@ def test_ask_sends_stripped_question(
     assert result.exit_code == 0
     assert len(calls) == 1
     assert calls[0] == [{"role": "user", "content": "why?"}]
+
+
+@pytest.mark.usefixtures("api_key")
+def test_ask_sends_configured_model(
+    monkeypatch: pytest.MonkeyPatch, runner: CliRunner, cli_client: Anthropic
+) -> None:
+    calls = []
+    sonnet = "claude-sonnet-5-5"
+
+    def fake_create(**kwargs: object) -> Message:
+        calls.append(kwargs["model"])
+        return make_message([text_block("Some answer...")], "end_turn")
+
+    monkeypatch.setattr(cli_client.messages, "create", fake_create)
+    monkeypatch.setenv("CLAUDE_MODEL", sonnet)
+
+    result = runner.invoke(app, ["ask", "why?"])
+
+    assert result.exit_code == 0
+    assert len(calls) == 1
+    assert calls[0] == sonnet
 
 
 def test_help_lists_ask(runner: CliRunner) -> None:
