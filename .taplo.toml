@@ -1,0 +1,4 @@
+[formatting]
+column_width = 88
+indent_string = "    "
+array_auto_collapse = false
